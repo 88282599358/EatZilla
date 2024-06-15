@@ -3,11 +3,15 @@ import { User } from "@/models/User";
 import { UserInfo } from "@/models/UserInfo";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
+import clientPromise from "@/lib/mongoConnect"
 
 require('dotenv').config()
 
 export async function PUT(req) {
-  mongoose.connect(process.env.MONGO_URL);
+  // mongoose.connect(process.env.MONGO_URL);
+  await clientPromise();
+
   const data = await req.json();
   const { _id, name, image, ...otherUserInfo } = data;
 
@@ -24,11 +28,12 @@ export async function PUT(req) {
   await User.updateOne(filter, { name, image });
   await UserInfo.findOneAndUpdate({ email: user.email }, otherUserInfo, { upsert: true });
 
-  return Response.json(true);
+  return NextResponse.json(true);
 }
 
 export async function GET(req) {
-  mongoose.connect(process.env.MONGO_URL);
+  // mongoose.connect(process.env.MONGO_URL);
+  await clientPromise();
 
   const url = new URL(req.url);
   const _id = url.searchParams.get('_id');
@@ -48,6 +53,6 @@ export async function GET(req) {
   const user = await User.findOne(filterUser).lean();
   const userInfo = await UserInfo.findOne({ email: user.email }).lean();
 
-  return Response.json({ ...user, ...userInfo });
+  return NextResponse.json({ ...user, ...userInfo });
 
 }

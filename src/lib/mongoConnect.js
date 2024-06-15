@@ -1,30 +1,20 @@
-import mongoose from 'mongoose';
+import { MongoClient } from "mongodb";
+require('dotenv').config();
 
-
-async function dbConnect(){
-  // Check if we have a connection to the database or if it's currently connecting
-  if (connection.isConnected) {
-    console.log('Already connected to the database');
-    return;
-  }
-
-  try {
-    // Attempt to connect to the database
-    const db = await mongoose.connect(process.env.MONGO_URL || '', {});
-
-    connection.isConnected = db.connections[0].readyState;
-
-    console.log('Database connected successfully');
-  } catch (error) {
-    console.error('Database connection failed:', error);
-
-    // Graceful exit in case of a connection error
-    process.exit(1);
-  }
+if (!process.env.MONGO_URL) {
+  throw new Error('Invalid/Missing environment variable: "MONGO_URL"');
 }
 
-export default dbConnect;
+const uri = process.env.MONGO_URL;
+const options = {};
 
+const client = new MongoClient(uri, options);
+const clientPromise = client.connect();
+
+export default clientPromise;
+
+
+// import mongoose from 'mongoose';
 
 // import { MongoClient } from "mongodb"
 // require('dotenv').config()
