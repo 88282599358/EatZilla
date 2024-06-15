@@ -2,7 +2,7 @@
 import SectionHeaders from "@/components/layout/SectionHeaders";
 import UserTabs from "@/components/layout/UserTabs";
 import {useProfile} from "@/components/UseProfile";
-import {dbTimeForHuman} from "@/libs/datetime";
+import {dbTimeForHuman} from "@/lib/datetime";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 
