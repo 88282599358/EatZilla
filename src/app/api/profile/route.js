@@ -9,7 +9,6 @@ import clientPromise from "@/lib/mongoConnect"
 require('dotenv').config()
 
 export async function PUT(req) {
-  // mongoose.connect(process.env.MONGO_URL);
   await clientPromise();
 
   const data = await req.json();
@@ -32,7 +31,6 @@ export async function PUT(req) {
 }
 
 export async function GET(req) {
-  // mongoose.connect(process.env.MONGO_URL);
   await clientPromise();
 
   const url = new URL(req.url);

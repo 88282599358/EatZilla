@@ -1,15 +1,15 @@
 'use client';
 import DeleteButton from "@/components/DeleteButton";
 import UserTabs from "@/components/layout/UserTabs";
-import {useEffect, useState} from "react";
-import {useProfile} from "@/components/UseProfile";
+import { useEffect, useState } from "react";
+import { useProfile } from "@/components/UseProfile";
 import toast from "react-hot-toast";
 
 export default function CategoriesPage() {
 
   const [categoryName, setCategoryName] = useState('');
   const [categories, setCategories] = useState([]);
-  const {loading:profileLoading, data:profileData} = useProfile();
+  const { loading: profileLoading, data: profileData } = useProfile();
   const [editedCategory, setEditedCategory] = useState(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function CategoriesPage() {
   async function handleCategorySubmit(ev) {
     ev.preventDefault();
     const creationPromise = new Promise(async (resolve, reject) => {
-      const data = {name:categoryName};
+      const data = { name: categoryName };
       if (editedCategory) {
         data._id = editedCategory._id;
       }
@@ -46,8 +46,8 @@ export default function CategoriesPage() {
     });
     await toast.promise(creationPromise, {
       loading: editedCategory
-                 ? 'Updating category...'
-                 : 'Creating your new category...',
+        ? 'Updating category...'
+        : 'Creating your new category...',
       success: editedCategory ? 'Category updated' : 'Category created',
       error: 'Error, sorry...',
     });
@@ -55,7 +55,7 @@ export default function CategoriesPage() {
 
   async function handleDeleteClick(_id) {
     const promise = new Promise(async (resolve, reject) => {
-      const response = await fetch('/api/categories?_id='+_id, {
+      const response = await fetch('/api/categories?_id=' + _id, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -95,8 +95,8 @@ export default function CategoriesPage() {
               )}
             </label>
             <input type="text"
-                   value={categoryName}
-                   onChange={ev => setCategoryName(ev.target.value)}
+              value={categoryName}
+              onChange={ev => setCategoryName(ev.target.value)}
             />
           </div>
           <div className="pb-2 flex gap-2">
@@ -125,10 +125,10 @@ export default function CategoriesPage() {
             </div>
             <div className="flex gap-1">
               <button type="button"
-                      onClick={() => {
-                        setEditedCategory(c);
-                        setCategoryName(c.name);
-                      }}
+                onClick={() => {
+                  setEditedCategory(c);
+                  setCategoryName(c.name);
+                }}
               >
                 Edit
               </button>
